@@ -1,10 +1,11 @@
-# Tecnical Test of Bartolomeu Spegiorin Gusella
+# Bartolomeu Spegiorin Gusella Tecnical Test
 
 ## Introduction
 The instructions about this test is at backend/README.md
 
 
 ## Installing and Settings
+With NodeJS installed and running,
 Install concurrently package
 ```
 npm i
