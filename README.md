@@ -1,115 +1,65 @@
-# DEEL BACKEND TASK
+# Tecnical Test of Bartolomeu Spegiorin Gusella
 
-💫 Welcome! 🎉
+## Introduction
+The instructions about this test is at backend/README.md
 
-This backend exercise involves building a Node.js/Express.js app that will serve a REST API. We imagine you should spend around 3 hours at implement this feature.
 
-## Data Models
-
-> **All models are defined in src/model.js**
-
-### Profile
-
-A profile can be either a `client` or a `contractor`.
-clients create contracts with contractors. contractor does jobs for clients and get paid.
-Each profile has a balance property.
-
-### Contract
-
-A contract between and client and a contractor.
-Contracts have 3 statuses, `new`, `in_progress`, `terminated`. contracts are considered active only when in status `in_progress`
-Contracts group jobs within them.
-
-### Job
-
-contractor get paid for jobs by clients under a certain contract.
-
-## Getting Set Up
-
-The exercise requires [Node.js](https://nodejs.org/en/) to be installed. We recommend using the LTS version.
-
-1. Start by creating a local repository for this folder.
-
-1. In the repo root directory, run `npm install` to gather all dependencies.
-
-1. Next, `npm run seed` will seed the local SQLite database. **Warning: This will drop the database if it exists**. The database lives in a local file `database.sqlite3`.
-
-1. Then run `npm start` which should start both the server and the React client.
-
-❗️ **Make sure you commit all changes to the master branch!**
-
-## Technical Notes
-
-- The server is running with [nodemon](https://nodemon.io/) which will automatically restart for you when you modify and save a file.
-
-- The database provider is SQLite, which will store data in a file local to your repository called `database.sqlite3`. The ORM [Sequelize](http://docs.sequelizejs.com/) is on top of it. You should only have to interact with Sequelize - **please spend some time reading sequelize documentation before starting the exercise.**
-
-- To authenticate users use the `getProfile` middleware that is located under src/middleware/getProfile.js. users are authenticated by passing `profile_id` in the request header. after a user is authenticated his profile will be available under `req.profile`. make sure only users that are on the contract can access their contracts.
-- The server is running on port 3001.
-
-## APIs To Implement
-
-Below is a list of the required API's for the application.
-
-1. **_GET_** `/contracts/:id` - This API is broken 😵! it should return the contract only if it belongs to the profile calling. better fix that!
-
-1. **_GET_** `/contracts` - Returns a list of contracts belonging to a user (client or contractor), the list should only contain non terminated contracts.
-
-1. **_GET_** `/jobs/unpaid` - Get all unpaid jobs for a user (**_either_** a client or contractor), for **_active contracts only_**. 
-
-1. **_POST_** `/jobs/:job_id/pay` - Pay for a job, a client can only pay if his balance >= the amount to pay. The amount should be moved from the client's balance to the contractor balance.
-
-1. **_POST_** `/balances/deposit/:userId` - Deposits money into the the the balance of a client, a client can't deposit more than 25% his total of jobs to pay. (at the deposit moment)
-
-1. **_GET_** `/admin/best-profession?start=<date>&end=<date>` - Returns the profession that earned the most money (sum of jobs paid) for any contactor that worked in the query time range.
-
-1. **_GET_** `/admin/best-clients?start=<date>&end=<date>&limit=<integer>` - returns the clients the paid the most for jobs in the query time period. limit query parameter should be applied, default limit is 2.
-
+## Installing and Settings
+Install concurrently package
 ```
- [
-    {
-        "id": 1,
-        "fullName": "Reece Moyer",
-        "paid" : 100.3
-    },
-    {
-        "id": 200,
-        "fullName": "Debora Martin",
-        "paid" : 99
-    },
-    {
-        "id": 22,
-        "fullName": "Debora Martin",
-        "paid" : 21
-    }
-]
+npm i
 ```
 
-## Going Above and Beyond the Requirements
+Then install Backend and Frontend dependencies, seed the DB
 
-Given the time expectations of this exercise, we don't expect anyone to submit anything super fancy, but if you find yourself with extra time, any extra credit item(s) that showcase your unique strengths would be awesome! 🙌
+```
+npm run install
+```
+Under the hoods I'm using concurrently to run cd front && npm i and cd back && npm i && npm run seed
+### And It's done !! You can go to next topic :D
 
-It would be great for example if you'd write some unit test / simple frontend demostrating calls to your fresh APIs.
+You can install the dependencies by project using
+```
+npm run install-front
+or
+npm run install-back
+```
+## Use
+You can access the frontend at http://localhost:3000
 
-## Submitting the Assignment
 
-When you have finished the assignment, zip your repo (make sure to include .git folder) and send us the zip.
-
-Thank you and good luck! 🙏
+Or make some cURL request to http://localhost:3001
 
 
+## Documentation
+As requested the backend was made using **Express** and **Sequelize**.
 
-----
+The frontend is made using the bundler **Vite**, the web library **ReactJs**, CSS Library **Bootstrap** and **SWC** an extensible Rust-based platform for the next generation of fast developer tools.
 
-## Candidate Notes
+## Tests
 
+### Using the Frontend
+
+You can test most of the cases using the frontend as mention before running npm start and accessing in the browser http://localhost:3000
+
+### Using Rest Client
+In the folder backend/test-request there are some .http files for all request in the backend.
+The VS Code Extension Rest Client *(https://github.com/Huachao/vscode-restclient) can make request directly from the .http files
+
+## Considerations
+
+### Backend
 - The model Jobs wich has the parameter 'paid' was with a wrong ColumnOptions the option **'default'**, to set the default value to a column, should use the option **'defaultValue'** 
 
 - At endpoint **POST /jobs/:job_id/pay** I wrote a asynchronous code that should perform better, but there was a few times that the update queries was reruning in loop until the db crashes, the possible buggy code is commented and the queries are running synchronous
 
-- At test-request folder I created some .http files to teste de API. You can use a VS Code Extension called "Rest Client" to run those request tests
-
-- I'd love to create some unit tests, reorganize the file structure and create a frontend to consume the APIs, but tomorrow morning I'll travel and don't know if I'll have time to code more before the deadline.
-
 - Please let me know if there are any specific areas you would like me to elaborate on or if you have any questions.
 Thank you for the opportunity, and I look forward to your feedback.
+
+### Frontend
+
+- Used functional components wich has a better performance and simplified sintax
+- Used ContextAPI to share the "user ID" information. 
+- Context API provides an efficient way to share data across multiple components, eliminating the need for prop drilling in deeply nested structures. This promotes better code organization and maintainability. 
+- I hadn't implement other ways to keep data like saving in local storage because would bring more complexity to the project, if you prefer I can implement it.
+- Used Bootstrap, that offers a vast collection of pre-designed and customizable UI. Accelerating development time and ensures a consistent visual experience across different devices and browsers.

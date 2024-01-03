@@ -1,5 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
+
 const {sequelize} = require('./model')
 const {getProfile} = require('./middleware/getProfile');
 const contractorGetById = require('./contractors/getById');
@@ -14,6 +16,7 @@ const app = express();
 app.use(bodyParser.json());
 app.set('sequelize', sequelize)
 app.set('models', sequelize.models)
+app.use(cors());
 
 app.get('/contracts/:id',getProfile ,contractorGetById);
 app.get('/contracts',getProfile ,contractorGetAll);
@@ -24,3 +27,4 @@ app.get('/admin/best-profession', adminGetBestProfission);
 app.get('/admin/best-clients', adminGetBestClients)
 
 module.exports = app;
+

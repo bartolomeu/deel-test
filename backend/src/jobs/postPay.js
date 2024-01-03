@@ -61,7 +61,11 @@ async function jobsPostPay(req, res) {
       }
     );
 
-    await Promise.all([increment, decrement, updateContract]);
+    await increment;
+    await decrement;
+    await updateContract;
+
+    // await Promise.all([increment, decrement, updateContract]); //doesn't work
   });
 
   return res.sendStatus(204);

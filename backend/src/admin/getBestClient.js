@@ -5,6 +5,8 @@ async function adminGetBestClients(req, res) {
   const { Job, Contract, Profile } = req.app.get("models");
   const { start, end, limit = 2 } = req.query;
 
+  console.log(start, end, limit);
+
   const totalAmount = await Job.findAll({
     attributes: [[sequelize.fn("sum", sequelize.col("price")), "total"]],
     include: {
@@ -24,6 +26,10 @@ async function adminGetBestClients(req, res) {
     },
     limit,
   });
+
+  if(!totalAmount[0].total){
+    return res.send([])
+  }
 
   const result = totalAmount.map((elm) => {
     console.log(elm);

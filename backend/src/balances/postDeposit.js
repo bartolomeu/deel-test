@@ -5,7 +5,9 @@ async function balancePostDeposit(req, res) {
   //get amount to deposit
   const amount = req.body.amount;
 
-  if( isNaN(+amount)){
+  if(isNaN(+amount)){
+    console.log('here');
+    console.log(amount);
     return res.status(422).send({message: 'AMOUNT INVALID'})
   }
 
